@@ -13,19 +13,19 @@ Goals:
 
 1. First I converted all of the images to grayscale. This allows us to target only the white pixels, instead of sifting through many different colored pixels.
 
-![Grayscale Output][./output_images/gray_solidWhiteCurve.jpg]
+![Grayscale Output][https://github.com/tlapinsk/CarND-LaneLines-P1/tree/master/output_images/gray_solidWhiteCurve.jpg]
 
 2. Next up was applying a Gaussian blur (kernal size of 5) to smooth out the image.
 
-![Gaussian Blur Output][./output_images/gaussian_solidWhiteCurve.jpg]
+![Gaussian Blur Output][https://github.com/tlapinsk/CarND-LaneLines-P1/tree/master/output_images/gaussian_solidWhiteCurve.jpg]
 
 3. I then applied Canny edge detection, defined a 4 sided polygon, and masked the image to pull out only the regions of interest. Meaning, the white pixels on a black background.
 
-![Masked Output][./output_images/masked_solidWhiteCurve.jpg]
+![Masked Output][https://github.com/tlapinsk/CarND-LaneLines-P1/tree/master/output_images/masked_solidWhiteCurve.jpg]
 
 4. Next, I defined the Hough transform parameters for optimization purposes, and then ran it through the Hough_lines helper function. It was then time to run it through the weighted_img function to display the lines on top of the road (combine images and overlay).
 
-![Overlay Output][./output_images/overlay_solidWhiteCurve.jpg]
+![Overlay Output][https://github.com/tlapinsk/CarND-LaneLines-P1/tree/master/output_images/overlay_solidWhiteCurve.jpg]
 
 5. Now comes the most important piece: Working through some algebra to create one straight line on either side. 
 
@@ -74,7 +74,7 @@ The last step was to use the OpenCV Drawing Function (cv2.line) to plot the poin
 
 6. This last step created a solid long line that ran in both the image and video pipelines
 
-![Final Output][./output_images/lines_solidWhiteCurve.jpg]
+![Final Output][https://github.com/tlapinsk/CarND-LaneLines-P1/tree/master/output_images/lines_solidWhiteCurve.jpg]
 
 ### 2. Identify potential shortcomings with your current pipeline
 
