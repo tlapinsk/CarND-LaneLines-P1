@@ -11,6 +11,8 @@ Goals:
 
 ### My pipeline
 
+Shoutout to other students who helped provide structure and inspiration - especially for connecting the lines using basic algebra.
+
 1. First I converted all of the images to grayscale. This allows us to target only the white pixels, instead of sifting through many different colored pixels.
 
 ![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gray_solidWhiteCurve.jpg?raw=true "Grayscale Output")
