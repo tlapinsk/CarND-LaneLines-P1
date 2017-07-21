@@ -1,13 +1,13 @@
 # **Finding Lane Lines on the Road** 
 
 Goals:
-1. Pull the pieces together from the quizzes and fully understand how a basic image pipeline works
-2. Gain a better understanding of how Python can be used to implement basic algebra
+1. Pull the pieces together from the quizzes and fully understand how a basic image pipeline works.
+2. Gain a better understanding of how Python can be used to implement algebra.
 3. Have fun!
 
 ---
 
-### Reflection
+## Reflection
 
 ### My pipeline
 
@@ -23,7 +23,7 @@ Goals:
 
 ![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/masked_solidWhiteCurve.jpg?raw=true "Masked Output")
 
-4. Next, I defined the Hough transform parameters for optimization purposes, and then ran it through the Hough_lines helper function. It was then time to run it through the weighted_img function to display the lines on top of the road (combine images and overlay).
+4. Next, I defined the Hough transform parameters for optimization purposes, and then ran it through the `hough_lines` helper function. It was then time to run it through the `weighted_img` function to display the lines on top of the road (combine images and overlay).
 
 ![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/overlay_solidWhiteCurve.jpg?raw=true "Overlay Output")
 
@@ -36,7 +36,7 @@ First, we need to create a few lists to store slope and intercept points.
 	m_left = []
 	i_left = []
 
-Next up was building on top of the for loop to grab the slope and intercepts values for each line. This was achieved by setting the slope of a line formula against a comparison operator. Since the axis is flipped, positive will indicate the right hand line and negative will indicate the left hand line. 
+Next up was building on top of the for loop to grab the slope and intercept values for each line. This was achieved by setting the slope of a line formula against a comparison operator. Since the axis is flipped, positive will indicate the right hand line and negative will indicate the left hand line. 
 
 	for line in lines:
 	 	for x1,y1,x2,y2 in line:
@@ -78,12 +78,12 @@ The last step was to use the OpenCV Drawing Function (cv2.line) to plot the poin
 
 ### 2. Identify potential shortcomings with your current pipeline
 
-1. The pipeline could be further optimized to keep the lines from "shaking." This can be achieved by changing parameters on the Hough transformation or image mask.
+1. The pipeline could be further optimized to keep the lines from "shaking" in the videos.
 
-2. I did not attempt the Challenge at the end, so my pipeline is optimized for this.
+2. I did not attempt the Challenge at the end, so my pipeline is not optimized for this.
 
 ### 3. Suggest possible improvements to your pipeline
 
 1. It may be appealing to others if the final lines were a tad thicker.
 
-2. Cleaner code would definitely make it more readable.
+2. Cleaner code would definitely make it more readable for others.
