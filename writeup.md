@@ -15,19 +15,19 @@ Shoutout to other students who helped provide structure and inspiration - especi
 
 1. First I converted all of the images to grayscale. This allows us to target only the white pixels, instead of sifting through many different colored pixels.
 
-![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gray_solidWhiteCurve.jpg?raw=true "Grayscale Output")
+![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gray_solidWhiteRight.jpg?raw=true "Grayscale Output")
 
 2. Next up was applying a Gaussian blur (kernal size of 5) to smooth out the image.
 
-![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gaussian_solidWhiteCurve.jpg?raw=true "Gaussian Blur Output")
+![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gaussian_solidWhiteRight.jpg?raw=true "Gaussian Blur Output")
 
 3. I then applied Canny edge detection, defined a 4 sided polygon, and masked the image to pull out only the regions of interest. Meaning, the white pixels on a black background.
 
-![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/masked_solidWhiteCurve.jpg?raw=true "Masked Output")
+![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/masked_solidWhiteRight.jpg?raw=true "Masked Output")
 
 4. Next, I defined the Hough transform parameters for optimization purposes, and then ran it through the `hough_lines` helper function. It was then time to run it through the `weighted_img` function to display the lines on top of the road (combine images and overlay).
 
-![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/overlay_solidWhiteCurve.jpg?raw=true "Overlay Output")
+![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/overlay_solidWhiteRight.jpg?raw=true "Overlay Output")
 
 5. Now comes the most important piece: Working through some algebra to create one straight line on either side. 
 
@@ -80,6 +80,10 @@ The last step was to use the OpenCV Drawing Function (cv2.line) to plot the poin
 	cv2.line(img,(r_bottom_x,r_bottom_y),(r_top_x,r_top_y),color,thickness)
 	cv2.line(img,(l_bottom_x,l_bottom_y),(l_top_x,l_top_y),color,thickness)
 
+One frame of the final lines can be seen below:
+
+![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/lines_solidWhiteRight.jpg?raw=true "Lines Output")
+
 ### Identify potential shortcomings with your current pipeline
 
 1. The pipeline could be further optimized to "shake" less. Particularly near the bottom part of the lane overlays.
@@ -89,3 +93,7 @@ The last step was to use the OpenCV Drawing Function (cv2.line) to plot the poin
 ### Suggest possible improvements to your pipeline
 
 1. My pipeline is not capable of handling the challenge video.
+
+2. The image mask could be a bit more refined to ignore extraneous parts of each image.
+
+3.
