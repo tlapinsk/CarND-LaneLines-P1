@@ -17,7 +17,6 @@ Shoutout to other students who helped provide structure and inspiration - especi
 
 ![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gray_solidWhiteCurve.jpg?raw=true "Grayscale Output")
 
-
 2. Next up was applying a Gaussian blur (kernal size of 5) to smooth out the image.
 
 ![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gaussian_solidWhiteCurve.jpg?raw=true "Gaussian Blur Output")
@@ -38,7 +37,6 @@ First, we need to create a few lists to store left and right slope/intercept.
 	l_slope = []
 	r_intercept = []
 	l_intercept = []
-
 
 Next up was building on top of the for loop to grab the slope and intercept values for each line. This was achieved by setting the slope of a line formula against a comparison operator. Since the axis is flipped, positive will indicate the right hand line and negative will indicate the left hand line. 
 
@@ -82,12 +80,12 @@ The last step was to use the OpenCV Drawing Function (cv2.line) to plot the poin
 	cv2.line(img,(r_bottom_x,r_bottom_y),(r_top_x,r_top_y),color,thickness)
 	cv2.line(img,(l_bottom_x,l_bottom_y),(l_top_x,l_top_y),color,thickness)
 
-### 2. Identify potential shortcomings with your current pipeline
+### Identify potential shortcomings with your current pipeline
 
 1. The pipeline could be further optimized to "shake" less. Particularly near the bottom part of the lane overlays.
 
 2. The two videos we tested were instances of ideal weather conditions. In real world scenarios, the pipeline will also need to handle different lighting and weather conditions.
 
-### 3. Suggest possible improvements to your pipeline
+### Suggest possible improvements to your pipeline
 
 1. My pipeline is not capable of handling the challenge video.
