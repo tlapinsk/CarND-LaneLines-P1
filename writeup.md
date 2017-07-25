@@ -91,5 +91,3 @@ The last step was to use the OpenCV Drawing Function (cv2.line) to plot the poin
 ### 3. Suggest possible improvements to your pipeline
 
 1. My pipeline is not capable of handling the challenge video.
-
-2. 
