@@ -2,7 +2,7 @@
 
 Goals:
 1. Pull the pieces together from the quizzes and fully understand how a basic image pipeline works.
-2. Gain a better understanding of how Python can be used to implement algebra.
+2. Gain a better understanding of how Python can be used to implement simple algebra.
 3. Have fun!
 
 ---
@@ -16,6 +16,7 @@ Shoutout to other students who helped provide structure and inspiration - especi
 1. First I converted all of the images to grayscale. This allows us to target only the white pixels, instead of sifting through many different colored pixels.
 
 ![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gray_solidWhiteCurve.jpg?raw=true "Grayscale Output")
+
 
 2. Next up was applying a Gaussian blur (kernal size of 5) to smooth out the image.
 
@@ -31,61 +32,64 @@ Shoutout to other students who helped provide structure and inspiration - especi
 
 5. Now comes the most important piece: Working through some algebra to create one straight line on either side. 
 
-First, we need to create a few lists to store slope and intercept points. 
+First, we need to create a few lists to store left and right slope/intercept. 
 
-	m_right = []
-	i_right = []
-	m_left = []
-	i_left = []
+	r_slope = []
+	l_slope = []
+	r_intercept = []
+	l_intercept = []
+
 
 Next up was building on top of the for loop to grab the slope and intercept values for each line. This was achieved by setting the slope of a line formula against a comparison operator. Since the axis is flipped, positive will indicate the right hand line and negative will indicate the left hand line. 
 
 	for line in lines:
-	 	for x1,y1,x2,y2 in line:
-		  if (y2-y1)/(x2-x1) > 0:
-		      m = (y2-y1)/(x2-x1)
-		      i = y1-(y2-y1)*x1/(x2-x1)
-		      m_right.append(m)
-		      i_right.append(i)
-		  if (y2-y1)/(x2-x1) < 0:
-		      m = (y2-y1)/(x2-x1)
-		      i = y1-(y2-y1)*x1/(x2-x1)
-		      m_left.append(m)
-		      i_left.append(i)
+		for x1, y1, x2, y2 in line:
+			if (y2 - y1)/(x2 - x1) > 0:
+				r_slope.append((y2-y1)/(x2-x1))
+				r_intercept.append(y1-(y2-y1)*x1/(x2-x1))
+			elif (y2 - y1)/(x2 - x1) < 0:
+				l_slope.append((y2-y1)/(x2-x1))
+				l_intercept.append(y1-(y2-y1)*x1/(x2-x1))
+			else:
+				pass
+
+To average the values from the list, I first tried taking the mean (np.mean). The video output was a bit too jumpy for my liking, so I decided to take the median instead (problem solved).
+
+	r_median_m = np.median(r_slope)
+	l_median_m = np.median(l_slope)
+	r_median_i = np.median(r_intercept)
+	l_median_i = np.median(l_intercept)
     
-It was then time to use the points stored in the lists to find the min/max x and y values so that we can create a line on either side.
+It was then time to use the median variables to create top and bottom x,y values that would feed into the cv2.line function. This was achieved with the help of two forum posts:
 
-	m_middle_right = np.median(m_right)
-	i_middle_right = np.median(i_right)
-	x_bottom_right = int((540-i_middle_right)/m_middle_right)
-	y_bottom_right = 540
-	x_top_right = int((330-i_middle_right)/m_middle_right)
-	y_top_right = 330
+1. [subodh.malgonde's June 17th response](https://discussions.udacity.com/t/project-1-finding-lanes/259763/32)
+2. [fernandodamasio's June 1st response](https://discussions.udacity.com/t/lane-extrapolation-help/253653/3), specifically this [YouTube video](https://www.youtube.com/watch?v=ibxvtsMOVgQ)
 
-	m_middle_left = np.median(m_left)
-	i_middle_left = np.median(i_left)
-	x_bottom_left = int((540-i_middle_left)/m_middle_left)
-	y_bottom_left = 540
-	x_top_left = int((330-i_middle_left)/m_middle_left)
-	y_top_left = 330
+The pseudo code helped frame my approach and fernandodamasio's YouTube video link helped me understand how to estimate y values based on the image size. You can see below that I estimated 540 for the bottom y values and 335 for the top y values, which were then used with the equation x = (y - c)/m to find integer values. Check out the code below:
 
-The last step was to use the OpenCV Drawing Function (cv2.line) to plot the points onto the image. I adjusted the thickness to 7 so that the lines showed up more clearly.
+	r_bottom_y = 540
+	r_bottom_x = int(round((r_bottom_y-r_median_i)/r_median_m))
+	r_top_y = 335
+	r_top_x = int(round((r_top_y-r_median_i)/r_median_m))
+  
+	l_bottom_y = 540
+	l_bottom_x = int(round((l_bottom_y-l_median_i)/l_median_m))
+	l_top_y = 335
+	l_top_x = int(round((l_top_y-l_median_i)/l_median_m))
 
-	cv2.line(img,(x_bottom_right,y_bottom_right),(x_top_right,y_top_right),color,thickness)
-	cv2.line(img,(x_bottom_left,y_bottom_left),(x_top_left,y_top_left),color,thickness)
+The last step was to use the OpenCV Drawing Function (cv2.line) to plot the points onto the image. I adjusted the thickness to 9 so that the lines showed up more clearly.
 
-6. This last step created a solid long line that ran in both the image and video pipelines
-
-![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/lines_solidWhiteCurve.jpg?raw=true "Final Output")
+	cv2.line(img,(r_bottom_x,r_bottom_y),(r_top_x,r_top_y),color,thickness)
+	cv2.line(img,(l_bottom_x,l_bottom_y),(l_top_x,l_top_y),color,thickness)
 
 ### 2. Identify potential shortcomings with your current pipeline
 
-1. The pipeline could be further optimized to keep the lines from "shaking" in the videos.
+1. The pipeline could be further optimized to "shake" less. Particularly near the bottom part of the lane overlays.
 
-2. I did not attempt the Challenge at the end, so my pipeline is not optimized for this.
+2. The two videos we tested were instances of ideal weather conditions. In real world scenarios, the pipeline will also need to handle different lighting and weather conditions.
 
 ### 3. Suggest possible improvements to your pipeline
 
-1. It may be appealing to others if the final lines were a tad thicker.
+1. My pipeline is not capable of handling the challenge video.
 
-2. Cleaner code would definitely make it more readable for others.
+2. 
