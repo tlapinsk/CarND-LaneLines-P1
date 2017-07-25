@@ -11,8 +11,6 @@ Goals:
 
 ### My pipeline
 
-Shoutout to other students who helped provide structure and inspiration - especially for connecting the lines using basic algebra.
-
 1. First I converted all of the images to grayscale. This allows us to target only the white pixels, instead of sifting through many different colored pixels.
 
 ![alt text](https://github.com/tlapinsk/CarND-LaneLines-P1/blob/master/output_images/gray_solidWhiteRight.jpg?raw=true "Grayscale Output")
@@ -31,7 +29,7 @@ Shoutout to other students who helped provide structure and inspiration - especi
 
 5. Now comes the most important piece: Working through some algebra to create one straight line on either side. 
 
-First, we need to create a few lists to store left and right slope/intercept. 
+First, we need to create a few lists to store left and right slope/intercept values. 
 
 	r_slope = []
 	l_slope = []
@@ -51,7 +49,7 @@ Next up was building on top of the for loop to grab the slope and intercept valu
 			else:
 				pass
 
-To average the values from the list, I first tried taking the mean (np.mean). The video output was a bit too jumpy for my liking, so I decided to take the median instead (problem solved).
+To average the values from the list, I first tried taking the mean (np.mean). The video output was a bit too jumpy for my liking, so I decided to take the median instead - problem solved.
 
 	r_median_m = np.median(r_slope)
 	l_median_m = np.median(l_slope)
@@ -75,7 +73,7 @@ The pseudo code helped frame my approach and fernandodamasio's YouTube video lin
 	l_top_y = 335
 	l_top_x = int(round((l_top_y-l_median_i)/l_median_m))
 
-The last step was to use the OpenCV Drawing Function (cv2.line) to plot the points onto the image. I adjusted the thickness to 9 so that the lines showed up more clearly.
+The last step was to use the OpenCV Drawing Function (cv2.line) to plot the points onto the image. I adjusted the thickness to 13 so that the lines showed up more clearly.
 
 	cv2.line(img,(r_bottom_x,r_bottom_y),(r_top_x,r_top_y),color,thickness)
 	cv2.line(img,(l_bottom_x,l_bottom_y),(l_top_x,l_top_y),color,thickness)
@@ -95,5 +93,3 @@ One frame of the final lines can be seen below:
 1. My pipeline is not capable of handling the challenge video.
 
 2. The image mask could be a bit more refined to ignore extraneous parts of each image.
-
-3.
